@@ -28,6 +28,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var showError: MaterialButton
     private lateinit var exitError: MaterialButton
     private lateinit var cardError: MaterialCardView
+    private lateinit var cardRouteOfTheDay: MaterialCardView
+    private lateinit var cardRoutes: MaterialCardView
+    private lateinit var exitRoutes: MaterialButton
 
     private lateinit var lastLocation: Location
 
@@ -47,18 +50,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         showError = findViewById(R.id.showError)
         exitError = findViewById(R.id.exitError)
         cardError = findViewById(R.id.cardError)
+        cardRouteOfTheDay = findViewById(R.id.cardRouteOfTheDay)
+        cardRoutes = findViewById(R.id.cardRoutes)
+        exitRoutes = findViewById(R.id.exitRoutes)
 
-        // Temporario
-        //showError.setOnClickListener{
-        //    val snack = Snackbar.make(showError, "Mostrando erro", Snackbar.LENGTH_LONG)
-        //    snack.show()
-        //    cardError.visibility = View.VISIBLE
-        //}
+        // TODO: Tirar botão temporario
+        showError.setOnClickListener{
+            val snack = Snackbar.make(showError, "Mostrando erro", Snackbar.LENGTH_LONG)
+            snack.show()
+            cardError.visibility = View.VISIBLE
+        }
 
         exitError.setOnClickListener{
             val snack = Snackbar.make(exitError, "Fechando erro", Snackbar.LENGTH_LONG)
             snack.show()
             cardError.visibility = View.GONE
+        }
+
+        cardRouteOfTheDay.setOnClickListener{
+            val snack = Snackbar.make(cardRouteOfTheDay, "Abrindo card", Snackbar.LENGTH_LONG)
+            snack.show()
+            cardRoutes.visibility = View.VISIBLE
+        }
+
+        exitRoutes.setOnClickListener{
+            val snack = Snackbar.make(exitRoutes, "Fechando routes", Snackbar.LENGTH_LONG)
+            snack.show()
+            cardRoutes.visibility = View.GONE
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -75,7 +93,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     private fun setUpMap() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
             return
@@ -139,20 +157,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .fillColor(Color.argb(30, 0, 0, 240)))
 
 
-        LocationSource.OnLocationChangedListener {
-            testLocation()
-        }
-
-
     }
 
-    private fun testLocation() {
-        if (cardError.isVisible) {
-            cardError.visibility = View.GONE
-        } else {
-            cardError.visibility = View.VISIBLE
-        }
-    }
 
     @SuppressLint("MissingPermission")
     private fun isInsideBounds() {
@@ -174,6 +180,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
     }
-
 
 }
